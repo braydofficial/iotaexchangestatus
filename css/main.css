@@ -1,0 +1,88 @@
+* {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+}
+
+body {
+    background: #152028;
+    color: #F7F7F7;
+}
+
+h1 {
+    color: #303F9F;
+    font-weight: 700;
+}
+
+a {
+    color: #303F9F;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    color: #673AB7;
+}
+
+.header {
+    width: clamp(400px, 80%, 1200px);
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.header p {
+    float: left;
+}
+
+.content {
+    width: clamp(400px, 80%, 1200px);
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 45% 45%;
+    gap: 15px;
+    margin: 0 auto;
+    padding-top: 15px;
+}
+
+.content section {
+    background: #202945;
+    padding-left: 5%;
+    padding-right: 5%;
+    border-radius: 10px;
+}
+
+.footer {
+    padding-top: 40px;
+    display: grid;
+    width: clamp(400px, 80%, 1200px);
+    justify-content: left;
+    grid-template-rows: 100px 100px;
+    margin: 0 auto;
+}
+
+input[type=submit] {
+    border-radius: 10px;
+    border: none;
+    padding: 15px 32px;
+    margin-top: 5px;
+    margin-right: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 500;
+    color: #F7F7F7;
+    transition: 0s;
+}
+
+input[type=submit]:hover {
+    border-radius: 5px;
+    transition-duration: 0.2s;
+}
+
+.voteMessage {
+    border-color: #673AB7;
+    border: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 20px;
+}
