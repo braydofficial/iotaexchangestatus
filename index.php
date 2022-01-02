@@ -17,6 +17,8 @@
     // 0            down
     // 1            up
 
+    // !-- MySQL Database table needs to be cleared every 24 hours trough a cron job or similar --!
+
     $voteMessage = "";
 
     $userIP = $_SERVER['REMOTE_ADDR'];
@@ -240,230 +242,249 @@
 <html>
     <head>
         <title>IOTA exchange status</title>
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"> 
     </head>
     <body>
-        <h1>IOTA exchange status</h1>
-        <p>This simple website tracks if exhanges allow withdrawals of IOTA based on user votes. - Most exchanges don't allow me to check if withdrawals are enabled via their API, so this is the only solution I figured out.</p>
+        <div class="header">
+            <h1>IOTA Exchange Status</h1>
+            <p>This simple website tracks if exhanges allow withdrawals of IOTA based on user votes. - Most exchanges don't allow me to check if withdrawals are enabled via their API, so this is the only solution I figured out.</p>
 
-        <section id="binance">
-            <h2><a href="https://www.binance.com">Binance</a></h2>
-            <form method="post">
-                <input type="submit" name="binanceup" value="Withdrawal is possible">
-                <input type="submit" name="binancedown" value="Withdrawal is suspended">
-            </form>
-            <p>
-                <?php 
-                    $sql = "SELECT * FROM votes WHERE Exchange = 1 AND Status = 0";
-                    $result = mysqli_query($conn, $sql);
-                    $downCount = mysqli_num_rows($result);
-                    echo $downCount;
-                ?> votes for suspended withdrawals in the last 24 hours.<br>
+            <span class="voteMessage" style="color: #FFBF00">
+            INFO: 
                 <?php
-                    $sql = "SELECT * FROM votes WHERE Exchange = 1 AND Status = 1";
-                    $result = mysqli_query($conn, $sql);
-                    $upCount = mysqli_num_rows($result);
-                    echo $upCount;
-                ?> votes for possible withdrawals in the last 24 hours.<br>
-                <?php
-                // Check how many percent of users voted for suspended withdrawals
-                    $total = $downCount + $upCount;
-                    $percentage = get_percentage($total, $downCount);
-                    echo "Therefore, $percentage% voted for suspended withdrawals in the last 24 hours.<br>";
-                    if($percentage >= 20) {
-                        echo "It's likely that withdrawals are suspended at the moment, because more than 20% voted for suspended withdrawals!";
-                    }
+                    echo $voteMessage;
                 ?>
-            </p>
-        </section>
-        
-        <section id="bitfinex">
-            <h2><a href="https://www.bitfinex.com/">Bitfinex</a></h2>
-            <form method="post">
-                <input type="submit" name="bitfinexup" value="Withdrawal is possible">
-                <input type="submit" name="bitfinexdown" value="Withdrawal is suspended">
-            </form>
-            <p>
-                <?php 
-                    $sql = "SELECT * FROM votes WHERE Exchange = 2 AND Status = 0";
-                    $result = mysqli_query($conn, $sql);
-                    $downCount = mysqli_num_rows($result);
-                    echo $downCount;
-                ?> votes for suspended withdrawals in the last 24 hours.<br>
-                <?php
-                    $sql = "SELECT * FROM votes WHERE Exchange = 2 AND Status = 1";
-                    $result = mysqli_query($conn, $sql);
-                    $upCount = mysqli_num_rows($result);
-                    echo $upCount;
-                ?> votes for possible withdrawals in the last 24 hours.<br>
-                <?php
-                // Check how many percent of users voted for suspended withdrawals
-                    $total = $downCount + $upCount;
-                    $percentage = get_percentage($total, $downCount);
-                    echo "Therefore, $percentage% voted for suspended withdrawals in the last 24 hours.<br>";
-                    if($percentage >= 20) {
-                        echo "It's likely that withdrawals are suspended at the moment, because more than 20% voted for suspended withdrawals!";
-                    }
-                ?>
-            </p>
-        </section>
+            </span>
 
-        <section id="bitvavo">
-            <h2><a href="https://bitvavo.com">Bitvavo</a></h2>
-            <form method="post">
-                <input type="submit" name="bitvavoup" value="Withdrawal is possible">
-                <input type="submit" name="bitvavodown" value="Withdrawal is suspended">
-            </form>
-            <p>
-                <?php 
-                    $sql = "SELECT * FROM votes WHERE Exchange = 3 AND Status = 0";
-                    $result = mysqli_query($conn, $sql);
-                    $downCount = mysqli_num_rows($result);
-                    echo $downCount;
-                ?> votes for suspended withdrawals in the last 24 hours.<br>
-                <?php
-                    $sql = "SELECT * FROM votes WHERE Exchange = 3 AND Status = 1";
-                    $result = mysqli_query($conn, $sql);
-                    $upCount = mysqli_num_rows($result);
-                    echo $upCount;
-                ?> votes for possible withdrawals in the last 24 hours.<br>
-                <?php
-                // Check how many percent of users voted for suspended withdrawals
-                    $total = $downCount + $upCount;
-                    $percentage = get_percentage($total, $downCount);
-                    echo "Therefore, $percentage% voted for suspended withdrawals in the last 24 hours.<br>";
-                    if($percentage >= 20) {
-                        echo "It's likely that withdrawals are suspended at the moment, because more than 20% voted for suspended withdrawals!";
-                    }
-                ?>
-            </p>
-        </section>
+        </div>
+            <div class=content>
+            <section id="binance">
+                <h2><a href="https://www.binance.com">Binance</a></h2>
+                <form method="post">
+                    <input type="submit" name="binanceup" value="Withdrawal possible" style="background-color: #52B788">
+                    <input type="submit" name="binancedown" value="Withdrawal suspended" style="background-color: #E63946">
+                </form>
+                <p>
+                    <?php 
+                        $sql = "SELECT * FROM votes WHERE Exchange = 1 AND Status = 0";
+                        $result = mysqli_query($conn, $sql);
+                        $downCount = mysqli_num_rows($result);
+                        echo $downCount;
+                    ?> votes for suspended withdrawals in the last 24 hours.<br>
+                    <?php
+                        $sql = "SELECT * FROM votes WHERE Exchange = 1 AND Status = 1";
+                        $result = mysqli_query($conn, $sql);
+                        $upCount = mysqli_num_rows($result);
+                        echo $upCount;
+                    ?> votes for possible withdrawals in the last 24 hours.<br>
+                    <?php
+                    // Check how many percent of users voted for suspended withdrawals
+                        $total = $downCount + $upCount;
+                        $percentage = get_percentage($total, $downCount);
+                        echo "<br>Therefore, $percentage% voted for suspended withdrawals in the last 24 hours.<br>";
+                        if($percentage >= 20) {
+                            echo '<br><span style="color: #FFBF00; font-weight:500;">It is likely that withdrawals are suspended at the moment, because more than 20% voted for suspended withdrawals!</span>';
+                        }
+                    ?>
+                </p>
+            </section>
+            
+            <section id="bitfinex">
+                <h2><a href="https://www.bitfinex.com/">Bitfinex</a></h2>
+                <form method="post">
+                    <input type="submit" name="bitfinexup" value="Withdrawal possible" style="background-color: #52B788">
+                    <input type="submit" name="bitfinexdown" value="Withdrawal suspended" style="background-color: #E63946">
+                </form>
+                <p>
+                    <?php 
+                        $sql = "SELECT * FROM votes WHERE Exchange = 2 AND Status = 0";
+                        $result = mysqli_query($conn, $sql);
+                        $downCount = mysqli_num_rows($result);
+                        echo $downCount;
+                    ?> votes for suspended withdrawals in the last 24 hours.<br>
+                    <?php
+                        $sql = "SELECT * FROM votes WHERE Exchange = 2 AND Status = 1";
+                        $result = mysqli_query($conn, $sql);
+                        $upCount = mysqli_num_rows($result);
+                        echo $upCount;
+                    ?> votes for possible withdrawals in the last 24 hours.<br>
+                    <?php
+                    // Check how many percent of users voted for suspended withdrawals
+                        $total = $downCount + $upCount;
+                        $percentage = get_percentage($total, $downCount);
+                        echo "<br>Therefore, $percentage% voted for suspended withdrawals in the last 24 hours.<br>";
+                        if($percentage >= 20) {
+                            echo '<br><span style="color: #FFBF00; font-weight:500;">It is likely that withdrawals are suspended at the moment, because more than 20% voted for suspended withdrawals!</span>';
+                        }
+                    ?>
+                </p>
+            </section>
 
-        <section id="bitpanda">
-            <h2><a href="https://www.bitpanda.com">bitpanda</a></h2>
-            <form method="post">
-                <input type="submit" name="bitpandaup" value="Withdrawal is possible">
-                <input type="submit" name="bitpandadown" value="Withdrawal is suspended">
-            </form>
-            <p>
-                <?php 
-                    $sql = "SELECT * FROM votes WHERE Exchange = 4 AND Status = 0";
-                    $result = mysqli_query($conn, $sql);
-                    $downCount = mysqli_num_rows($result);
-                    echo $downCount;
-                ?> votes for suspended withdrawals in the last 24 hours.<br>
-                <?php
-                    $sql = "SELECT * FROM votes WHERE Exchange = 4 AND Status = 1";
-                    $result = mysqli_query($conn, $sql);
-                    $upCount = mysqli_num_rows($result);
-                    echo $upCount;
-                ?> votes for possible withdrawals in the last 24 hours.<br>
-                <?php
-                // Check how many percent of users voted for suspended withdrawals
-                    $total = $downCount + $upCount;
-                    $percentage = get_percentage($total, $downCount);
-                    echo "Therefore, $percentage% voted for suspended withdrawals in the last 24 hours.<br>";
-                    if($percentage >= 20) {
-                        echo "It's likely that withdrawals are suspended at the moment, because more than 20% voted for suspended withdrawals!";
-                    }
-                ?>
-            </p>
-        </section>
+            <section id="bitvavo">
+                <h2><a href="https://bitvavo.com">Bitvavo</a></h2>
+                <form method="post">
+                    <input type="submit" name="bitvavoup" value="Withdrawal possible" style="background-color: #52B788">
+                    <input type="submit" name="bitvavodown" value="Withdrawal suspended" style="background-color: #E63946">
+                </form>
+                <p>
+                    <?php 
+                        $sql = "SELECT * FROM votes WHERE Exchange = 3 AND Status = 0";
+                        $result = mysqli_query($conn, $sql);
+                        $downCount = mysqli_num_rows($result);
+                        echo $downCount;
+                    ?> votes for suspended withdrawals in the last 24 hours.<br>
+                    <?php
+                        $sql = "SELECT * FROM votes WHERE Exchange = 3 AND Status = 1";
+                        $result = mysqli_query($conn, $sql);
+                        $upCount = mysqli_num_rows($result);
+                        echo $upCount;
+                    ?> votes for possible withdrawals in the last 24 hours.<br>
+                    <?php
+                    // Check how many percent of users voted for suspended withdrawals
+                        $total = $downCount + $upCount;
+                        $percentage = get_percentage($total, $downCount);
+                        echo "<br>Therefore, $percentage% voted for suspended withdrawals in the last 24 hours.<br>";
+                        if($percentage >= 20) {
+                            echo '<br><span style="color: #FFBF00; font-weight:500;">It is likely that withdrawals are suspended at the moment, because more than 20% voted for suspended withdrawals!</span>';
+                        }
+                    ?>
+                </p>
+            </section>
 
-        <section id="upbit">
-            <h2><a href="https://upbit.com">Upbit</a></h2>
-            <form method="post">
-                <input type="submit" name="upbitup" value="Withdrawal is possible">
-                <input type="submit" name="upbitdown" value="Withdrawal is suspended">
-            </form>
-            <p>
-                <?php 
-                    $sql = "SELECT * FROM votes WHERE Exchange = 5 AND Status = 0";
-                    $result = mysqli_query($conn, $sql);
-                    $downCount = mysqli_num_rows($result);
-                    echo $downCount;
-                ?> votes for suspended withdrawals in the last 24 hours.<br>
-                <?php
-                    $sql = "SELECT * FROM votes WHERE Exchange = 5 AND Status = 1";
-                    $result = mysqli_query($conn, $sql);
-                    $upCount = mysqli_num_rows($result);
-                    echo $upCount;
-                ?> votes for possible withdrawals in the last 24 hours.<br>
-                <?php
-                // Check how many percent of users voted for suspended withdrawals
-                    $total = $downCount + $upCount;
-                    $percentage = get_percentage($total, $downCount);
-                    echo "Therefore, $percentage% voted for suspended withdrawals in the last 24 hours.<br>";
-                    if($percentage >= 20) {
-                        echo "It's likely that withdrawals are suspended at the moment, because more than 20% voted for suspended withdrawals!";
-                    }
-                ?>
-            </p>
-        </section>
+            <section id="bitpanda">
+                <h2><a href="https://www.bitpanda.com">bitpanda</a></h2>
+                <form method="post">
+                    <input type="submit" name="bitpandaup" value="Withdrawal possible" style="background-color: #52B788">
+                    <input type="submit" name="bitpandadown" value="Withdrawal suspended" style="background-color: #E63946">
+                </form>
+                <p>
+                    <?php 
+                        $sql = "SELECT * FROM votes WHERE Exchange = 4 AND Status = 0";
+                        $result = mysqli_query($conn, $sql);
+                        $downCount = mysqli_num_rows($result);
+                        echo $downCount;
+                    ?> votes for suspended withdrawals in the last 24 hours.<br>
+                    <?php
+                        $sql = "SELECT * FROM votes WHERE Exchange = 4 AND Status = 1";
+                        $result = mysqli_query($conn, $sql);
+                        $upCount = mysqli_num_rows($result);
+                        echo $upCount;
+                    ?> votes for possible withdrawals in the last 24 hours.<br>
+                    <?php
+                    // Check how many percent of users voted for suspended withdrawals
+                        $total = $downCount + $upCount;
+                        $percentage = get_percentage($total, $downCount);
+                        echo "<br>Therefore, $percentage% voted for suspended withdrawals in the last 24 hours.<br>";
+                        if($percentage >= 20) {
+                            echo '<br><span style="color: #FFBF00; font-weight:500;">It is likely that withdrawals are suspended at the moment, because more than 20% voted for suspended withdrawals!</span>';
+                        }
+                    ?>
+                </p>
+            </section>
 
-        <section id="indodax">
-            <h2><a href="https://indodax.com/">Indodax</a></h2>
-            <form method="post">
-                <input type="submit" name="indodaxup" value="Withdrawal is possible">
-                <input type="submit" name="indodaxdown" value="Withdrawal is suspended">
-            </form>
-            <p>
-                <?php 
-                    $sql = "SELECT * FROM votes WHERE Exchange = 6 AND Status = 0";
-                    $result = mysqli_query($conn, $sql);
-                    $downCount = mysqli_num_rows($result);
-                    echo $downCount;
-                ?> votes for suspended withdrawals in the last 24 hours.<br>
-                <?php
-                    $sql = "SELECT * FROM votes WHERE Exchange = 6 AND Status = 1";
-                    $result = mysqli_query($conn, $sql);
-                    $upCount = mysqli_num_rows($result);
-                    echo $upCount;
-                ?> votes for possible withdrawals in the last 24 hours.<br>
-                <?php
-                // Check how many percent of users voted for suspended withdrawals
-                    $total = $downCount + $upCount;
-                    $percentage = get_percentage($total, $downCount);
-                    echo "Therefore, $percentage% voted for suspended withdrawals in the last 24 hours.<br>";
-                    if($percentage >= 20) {
-                        echo "It's likely that withdrawals are suspended at the moment, because more than 20% voted for suspended withdrawals!";
-                    }
-                ?>
-            </p>
-        </section>
+            <section id="upbit">
+                <h2><a href="https://upbit.com">Upbit</a></h2>
+                <form method="post">
+                    <input type="submit" name="upbitup" value="Withdrawal possible" style="background-color: #52B788">
+                    <input type="submit" name="upbitdown" value="Withdrawal suspended" style="background-color: #E63946">
+                </form>
+                <p>
+                    <?php 
+                        $sql = "SELECT * FROM votes WHERE Exchange = 5 AND Status = 0";
+                        $result = mysqli_query($conn, $sql);
+                        $downCount = mysqli_num_rows($result);
+                        echo $downCount;
+                    ?> votes for suspended withdrawals in the last 24 hours.<br>
+                    <?php
+                        $sql = "SELECT * FROM votes WHERE Exchange = 5 AND Status = 1";
+                        $result = mysqli_query($conn, $sql);
+                        $upCount = mysqli_num_rows($result);
+                        echo $upCount;
+                    ?> votes for possible withdrawals in the last 24 hours.<br>
+                    <?php
+                    // Check how many percent of users voted for suspended withdrawals
+                        $total = $downCount + $upCount;
+                        $percentage = get_percentage($total, $downCount);
+                        echo "<br>Therefore, $percentage% voted for suspended withdrawals in the last 24 hours.<br>";
+                        if($percentage >= 20) {
+                            echo '<br><span style="color: #FFBF00; font-weight:500;">It is likely that withdrawals are suspended at the moment, because more than 20% voted for suspended withdrawals!</span>';
+                        }
+                    ?>
+                </p>
+            </section>
 
-        <section id="kucoin">
-            <h2><a href="https://www.kucoin.com/">KuCoin</a></h2>
-            <form method="post">
-                <input type="submit" name="kucoinup" value="Withdrawal is possible">
-                <input type="submit" name="kucoindown" value="Withdrawal is suspended">
-            </form>
-            <p>
-                <?php 
-                    $sql = "SELECT * FROM votes WHERE Exchange = 7 AND Status = 0";
-                    $result = mysqli_query($conn, $sql);
-                    $downCount = mysqli_num_rows($result);
-                    echo $downCount;
-                ?> votes for suspended withdrawals in the last 24 hours.<br>
-                <?php
-                    $sql = "SELECT * FROM votes WHERE Exchange = 7 AND Status = 1";
-                    $result = mysqli_query($conn, $sql);
-                    $upCount = mysqli_num_rows($result);
-                    echo $upCount;
-                ?> votes for possible withdrawals in the last 24 hours.<br>
-                <?php
-                // Check how many percent of users voted for suspended withdrawals
-                    $total = $downCount + $upCount;
-                    $percentage = get_percentage($total, $downCount);
-                    echo "Therefore, $percentage% voted for suspended withdrawals in the last 24 hours.<br>";
-                    if($percentage >= 20) {
-                        echo "It's likely that withdrawals are suspended at the moment, because more than 20% voted for suspended withdrawals!";
-                    }
-                ?>
-            </p>
-        </section>
+            <section id="indodax">
+                <h2><a href="https://indodax.com/">Indodax</a></h2>
+                <form method="post">
+                    <input type="submit" name="indodaxup" value="Withdrawal possible" style="background-color: #52B788">
+                    <input type="submit" name="indodaxdown" value="Withdrawal suspended" style="background-color: #E63946">
+                </form>
+                <p>
+                    <?php 
+                        $sql = "SELECT * FROM votes WHERE Exchange = 6 AND Status = 0";
+                        $result = mysqli_query($conn, $sql);
+                        $downCount = mysqli_num_rows($result);
+                        echo $downCount;
+                    ?> votes for suspended withdrawals in the last 24 hours.<br>
+                    <?php
+                        $sql = "SELECT * FROM votes WHERE Exchange = 6 AND Status = 1";
+                        $result = mysqli_query($conn, $sql);
+                        $upCount = mysqli_num_rows($result);
+                        echo $upCount;
+                    ?> votes for possible withdrawals in the last 24 hours.<br>
+                    <?php
+                    // Check how many percent of users voted for suspended withdrawals
+                        $total = $downCount + $upCount;
+                        $percentage = get_percentage($total, $downCount);
+                        echo "<br>Therefore, $percentage% voted for suspended withdrawals in the last 24 hours.<br>";
+                        if($percentage >= 20) {
+                            echo '<br><span style="color: #FFBF00; font-weight:500;">It is likely that withdrawals are suspended at the moment, because more than 20% voted for suspended withdrawals!</span>';
+                        }
+                    ?>
+                </p>
+            </section>
 
-        <?php
-            echo $voteMessage;
-        ?>
+            <section id="kucoin">
+                <h2><a href="https://www.kucoin.com/">KuCoin</a></h2>
+                <form method="post">
+                    <input type="submit" name="kucoinup" value="Withdrawal possible" style="background-color: #52B788">
+                    <input type="submit" name="kucoindown" value="Withdrawal suspended" style="background-color: #E63946">
+                </form>
+                <p>
+                    <?php 
+                        $sql = "SELECT * FROM votes WHERE Exchange = 7 AND Status = 0";
+                        $result = mysqli_query($conn, $sql);
+                        $downCount = mysqli_num_rows($result);
+                        echo $downCount;
+                    ?> votes for suspended withdrawals in the last 24 hours.<br>
+                    <?php
+                        $sql = "SELECT * FROM votes WHERE Exchange = 7 AND Status = 1";
+                        $result = mysqli_query($conn, $sql);
+                        $upCount = mysqli_num_rows($result);
+                        echo $upCount;
+                    ?> votes for possible withdrawals in the last 24 hours.<br>
+                    <?php
+                    // Check how many percent of users voted for suspended withdrawals
+                        $total = $downCount + $upCount;
+                        $percentage = get_percentage($total, $downCount);
+                        echo "<br>Therefore, $percentage% voted for suspended withdrawals in the last 24 hours.<br>";
+                        if($percentage >= 20) {
+                            echo '<br><span style="color: #FFBF00; font-weight:500;">It is likely that withdrawals are suspended at the moment, because more than 20% voted for suspended withdrawals!</span>';
+                        }
+                    ?>
+                </p>
+            </section>
+        </div>
+        <div class="footer">
+            <a href="https://www.buymeacoffee.com/thisdudeisvegan" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+            <p>
+                <b>IOTA Donation address:</b><br>
+                iota1qqm9k3003sszpq4d5n0yc89pk6dvpm3wvc7lexlzr2nwwrpaxaxdg7f85k6<br><br>
+                Developed by <a href="https://github.com/braydofficial">thisdudeisvegan</a><br>
+            </p>
+        </div>
     </body>
 </html>
