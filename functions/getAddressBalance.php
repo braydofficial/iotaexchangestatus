@@ -6,8 +6,8 @@
     function getAddressBalance($string) {
         
 
-        $client = new SingleNodeClient('mainnet');
+        $client = new SingleNodeClient();
         $address = $string;
-        echo $ret = (new getBalance($client))->address('$address')->run();
+        echo $ret = (new getBalance($client))->address($address)->run();
     }
 ?>
