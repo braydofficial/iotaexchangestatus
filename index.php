@@ -18,6 +18,10 @@
     // !-- MySQL Database table needs to be cleared every 24 hours trough a cron job or similar --!
 
     require_once('config.php');
+
+    // Implement functions
+    require_once("functions/getAddressBalance.php");
+
     $voteMessage = "";
 
     $userIP = $_SERVER['REMOTE_ADDR'];
@@ -353,6 +357,10 @@
                     <input type="submit" name="binanceup" value="Withdrawal possible" style="background-color: #52B788">
                     <input type="submit" name="binancedown" value="Withdrawal suspended" style="background-color: #E63946">
                 </form>
+                <p>
+                    Hot wallet balance: <?php echo getAddressBalance("iota1qrp7wn7ag964yh7r6csphg8l47q9ehlpxz8tukhad09x7avjj09s5qunq87"); ?><br>
+                    Cold wallet balance: <?php echo getAddressBalance("iota1qptaxjt2un3qgnu40j7kgdjyucwph45pwstfwl7r3dlswyels50qcetuyk4"); ?>
+                </p>
             </section>
 
             <section id="binance-us">
