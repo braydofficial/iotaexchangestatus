@@ -553,7 +553,7 @@
         <div class="footer">
             <a href="https://www.buymeacoffee.com/thisdudeisvegan" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
             <p>
-                <b>IOTA Donation address:</b><br>
+                <span style="color: #FFBF00; font-weight: 500;">IOTA Donation address:</span><br>
                 iota1qqm9k3003sszpq4d5n0yc89pk6dvpm3wvc7lexlzr2nwwrpaxaxdg7f85k6<br><br>
                 Developed by <a href="https://github.com/braydofficial">thisdudeisvegan</a><br>
                 Source on <a href="https://github.com/braydofficial/iotaexchangestatus">GitHub</a><br>
