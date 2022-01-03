@@ -24,7 +24,7 @@
     $userIP = $_SERVER['REMOTE_ADDR'];
     $IPSalt = "SALT"; // Change to set custom salt to protect IP addresses in case of database breach
     $IPConcat = "$userIP$IPSalt";
-    $userIPHashed = md5($IPConcat);
+    $userIPHashed = hash("sha256", $IPConcat);
 
     // create connection
     $conn = mysqli_connect($host, $username, $password, $database);
@@ -36,11 +36,11 @@
 
     // Check POST methods to track votes
     if(isset($_POST['binancedown'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 1";
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 1";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
-            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, $userIPHashed, '1', '0')";
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '1', '0')";
             if($conn->query($sql) === TRUE) {
                 $voteMessage = "You voted for Binance withdrawals being suspended!";
             } else {
@@ -50,11 +50,11 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif (isset($_POST['binanceup'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 1";
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 1";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
-            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, $userIPHashed, '1', '1')";
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '1', '1')";
             if($conn->query($sql) === TRUE) {
                 $voteMessage = "You voted for Binance withdrawals being possible!";
             } else {
@@ -64,11 +64,11 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['bitfinexup'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 2";
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 2";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
-            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, $userIPHashed, '2', '1')";
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '2', '1')";
             if($conn->query($sql) === TRUE) {
                 $voteMessage = "You voted for Bitfinex withdrawals being possible!";
             } else {
@@ -78,11 +78,11 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['bitfinexdown'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 2";
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 2";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
-            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, $userIPHashed, '2', '0')";
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '2', '0')";
             if($conn->query($sql) === TRUE) {
                 $voteMessage = "You voted for Bitfinex withdrawals being suspended!";
             } else {
@@ -92,11 +92,11 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['bitvavoup'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 3";
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 3";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
-            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, $userIPHashed, '3', '1')";
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '3', '1')";
             if($conn->query($sql) === TRUE) {
                 $voteMessage = "You voted for Bitvavo withdrawals being possible!";
             } else {
@@ -106,11 +106,11 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['bitvavodown'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 3";
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 3";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
-            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, $userIPHashed, '3', '0')";
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '3', '0')";
             if($conn->query($sql) === TRUE) {
                 $voteMessage = "You voted for Bitvavo withdrawals being suspended!";
             } else {
@@ -120,11 +120,11 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['bitpandaup'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 4";
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 4";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
-            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, $userIPHashed, '4', '1')";
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '4', '1')";
             if($conn->query($sql) === TRUE) {
                 $voteMessage = "You voted for bitpanda withdrawals being possible!";
             } else {
@@ -134,11 +134,11 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['bitpandadown'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 4";
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 4";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
-            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, $userIPHashed, '4', '0')";
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '4', '0')";
             if($conn->query($sql) === TRUE) {
                 $voteMessage = "You voted for bitpanda withdrawals being suspended!";
             } else {
@@ -148,11 +148,11 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['upbitup'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 5";
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 5";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
-            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, $userIPHashed, '5', '1')";
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '5', '1')";
             if($conn->query($sql) === TRUE) {
                 $voteMessage = "You voted for Upbit withdrawals being possible!";
             } else {
@@ -162,11 +162,11 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['upbitdown'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 5";
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 5";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
-            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, $userIPHashed, '5', '0')";
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '5', '0')";
             if($conn->query($sql) === TRUE) {
                 $voteMessage = "You voted for Upbit withdrawals being suspended!";
             } else {
@@ -176,11 +176,11 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['indodaxup'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 6";
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 6";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
-            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, $userIPHashed, '6', '1')";
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '6', '1')";
             if($conn->query($sql) === TRUE) {
                 $voteMessage = "You voted for Indodax withdrawals being possible!";
             } else {
@@ -190,11 +190,11 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['indodaxdown'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 6";
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 6";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
-            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, $userIPHashed, '6', '0')";
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '6', '0')";
             if($conn->query($sql) === TRUE) {
                 $voteMessage = "You voted for Indodax withdrawals being suspended!";
             } else {
@@ -204,11 +204,11 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['kucoinup'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 7";
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 7";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
-            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, $userIPHashed, '7', '1')";
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '7', '1')";
             if($conn->query($sql) === TRUE) {
                 $voteMessage = "You voted for KuCoin withdrawals being possible!";
             } else {
@@ -218,11 +218,11 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['kucoindown'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 7";
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 7";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
-            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, $userIPHashed, '7', '0')";
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '7', '0')";
             if($conn->query($sql) === TRUE) {
                 $voteMessage = "You voted for KuCoin withdrawals being suspended!";
             } else {
