@@ -283,6 +283,9 @@
         <div class="header">
             <h1>IOTA Exchange Status</h1>
             <p>This simple website tracks if exhanges allow withdrawals of IOTA based on user votes. - Most exchanges don't allow me to check if withdrawals are enabled via their API, so this is the only solution I figured out.</p>
+            <p>
+                Votes reset in <span id="countdown"></span>
+            </p>
 
             <span class="voteMessage" style="color: #FFBF00">
             INFO: 
@@ -559,4 +562,32 @@
             </p>
         </div>
     </body>
+    <script type="text/javascript">
+        
+        (function() {
+            var start = new Date;
+            start.setHours(0, 0, 0); // 11pm
+
+            function pad(num) {
+                return ("0" + parseInt(num)).substr(-2);
+            }
+
+            function tick() {
+                var now = new Date;
+                if (now > start) { // too late, go to tomorrow
+                start.setDate(start.getDate() + 1);
+                }
+                var remain = ((start - now) / 1000);
+                var hh = pad((remain / 60 / 60) % 60);
+                var mm = pad((remain / 60) % 60);
+                var ss = pad(remain % 60);
+                document.getElementById('countdown').innerHTML =
+                hh + ":" + mm + ":" + ss;
+                setTimeout(tick, 1000);
+            }
+
+            document.addEventListener('DOMContentLoaded', tick);
+        })();
+
+    </script>
 </html>
