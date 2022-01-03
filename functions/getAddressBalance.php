@@ -13,9 +13,9 @@
         $iota = $ret['balance'];
         
         // Check which type it is
-        if($iota >= 0 && $iota <= 999) {
+        if($iota >= 0 && $iota <= 999999) {
             echo "$iota IOTA";
-        } elseif($iota >= 1000 && $iota <= 999999) {
+        } elseif($iota >= 1000000 && $iota <= 999999999) {
             $miota = $iota / 1000000;
             echo "$miota MIOTA";
         }
