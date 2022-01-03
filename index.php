@@ -284,15 +284,17 @@
             <h1>IOTA Exchange Status</h1>
             <p>This simple website tracks if exhanges allow withdrawals of IOTA based on user votes. - Most exchanges don't allow me to check if withdrawals are enabled via their API, so this is the only solution I figured out.</p>
             <p>
-                Votes reset in <span id="countdown"></span>
+                Votes will reset in <span id="countdown"></span> hours!
             </p>
 
-            <span class="voteMessage" style="color: #FFBF00">
-            INFO: 
-                <?php
-                    echo $voteMessage;
-                ?>
-            </span>
+            <p>
+                <br><br><span class="voteMessage" style="color: #FFBF00">
+                INFO: 
+                    <?php
+                        echo $voteMessage;
+                    ?>
+                </span>
+            </p>
 
         </div>
             <div class=content>
@@ -563,7 +565,7 @@
         </div>
     </body>
     <script type="text/javascript">
-        
+
         (function() {
             var start = new Date;
             start.setHours(0, 0, 0); // 11pm
