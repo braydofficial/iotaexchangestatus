@@ -8,6 +8,6 @@
 
         $client = new SingleNodeClient();
         $address = $string;
-        echo $ret = (new getBalance($client))->address($address)->run();
+        echo $ret = $client->address($address);
     }
 ?>
