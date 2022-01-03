@@ -9,6 +9,7 @@
     // Upbit        5
     // Indodax      6
     // KuCoin       7
+    // Bitrue       9
 
     // Status in DB:
     // 0            down
@@ -250,6 +251,34 @@
             $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '8', '0')";
             if($conn->query($sql) === TRUE) {
                 $voteMessage = "You voted for Binance US withdrawals being suspended!";
+            } else {
+                $voteMessage = "There was an issue with the database.";
+            }
+        } else {
+            $voteMessage = "You already voted in the last 24 hours!";
+        }
+    } elseif(isset($_POST['bitrueup'])) {
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 9";
+        $result = mysqli_query($conn, $sql);
+        $count = mysqli_num_rows($result);
+        if($count == 0) {
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '9', '1')";
+            if($conn->query($sql) === TRUE) {
+                $voteMessage = "You voted for Bitrue withdrawals being possible!";
+            } else {
+                $voteMessage = "There was an issue with the database.";
+            }
+        } else {
+            $voteMessage = "You already voted in the last 24 hours!";
+        }
+    } elseif(isset($_POST['bitruedown'])) {
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 9";
+        $result = mysqli_query($conn, $sql);
+        $count = mysqli_num_rows($result);
+        if($count == 0) {
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '9', '0')";
+            if($conn->query($sql) === TRUE) {
+                $voteMessage = "You voted for Bitrue withdrawals being suspended!";
             } else {
                 $voteMessage = "There was an issue with the database.";
             }
@@ -549,6 +578,39 @@
                     <input type="submit" name="kucoindown" value="Withdrawal suspended" style="background-color: #E63946">
                 </form>
             </section>
+
+            <section id="bitrue">
+                <h2><a href="https://www.bitrue.com/">Bitrue</a></h2>
+                <p>
+                    <?php 
+                        $sql = "SELECT * FROM votes WHERE Exchange = 9 AND Status = 0";
+                        $result = mysqli_query($conn, $sql);
+                        $downCount = mysqli_num_rows($result);
+                        echo $downCount;
+                    ?> votes for suspended withdrawals in the last 24 hours.<br>
+                    <?php
+                        $sql = "SELECT * FROM votes WHERE Exchange = 9 AND Status = 1";
+                        $result = mysqli_query($conn, $sql);
+                        $upCount = mysqli_num_rows($result);
+                        echo $upCount;
+                    ?> votes for possible withdrawals in the last 24 hours.<br>
+                    <?php
+                    // Check how many percent of users voted for suspended withdrawals
+                        $total = $downCount + $upCount;
+                        $percentage = get_percentage($total, $downCount);
+                        echo "<br>Therefore, $percentage% voted for suspended withdrawals in the last 24 hours.<br>";
+                        if($percentage >= 20) {
+                            echo '<br><span style="color: #FFBF00; font-weight:500;">It is likely that withdrawals are suspended at the moment, because more than 20% voted for suspended withdrawals!</span>';
+                        }
+                    ?>
+                </p>
+                <p>Have you withdrawn recently? If so, please vote:</p>
+                <form method="post">
+                    <input type="submit" name="bitrueup" value="Withdrawal possible" style="background-color: #52B788">
+                    <input type="submit" name="bitruedown" value="Withdrawal suspended" style="background-color: #E63946">
+                </form>
+            </section>
+
         </div>
         <div class="footer">
             <a href="https://www.buymeacoffee.com/thisdudeisvegan" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
