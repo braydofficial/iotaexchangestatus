@@ -23,7 +23,6 @@
 
     $userIP = $_SERVER['REMOTE_ADDR'];
     $userIPHashed = password_hash($userIP, PASSWORD_DEFAULT);
-    $SQLHashResult = "SELECT * FROM votes;"
 
     // create connection
     $conn = mysqli_connect($host, $username, $password, $database);
@@ -33,16 +32,9 @@
         die("Connection to database failed.");
     }
 
-    $resultIP = $conn->prepare($SQLHashResult);
-    $resultIP->execute();
-
-    $query = $resultIP->fetch();
-
-    $userIPHashedResult = password_verify($userIP, $query['IP']);
-
     // Check POST methods to track votes
     if(isset($_POST['binancedown'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashedResult AND Exchange = 1";
+        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 1";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
@@ -56,7 +48,7 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif (isset($_POST['binanceup'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashedResult AND Exchange = 1";
+        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 1";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
@@ -70,7 +62,7 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['bitfinexup'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashedResult AND Exchange = 2";
+        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 2";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
@@ -84,7 +76,7 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['bitfinexdown'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashedResult AND Exchange = 2";
+        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 2";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
@@ -98,7 +90,7 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['bitvavoup'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashedResult AND Exchange = 3";
+        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 3";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
@@ -112,7 +104,7 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['bitvavodown'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashedResult AND Exchange = 3";
+        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 3";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
@@ -126,7 +118,7 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['bitpandaup'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashedResult AND Exchange = 4";
+        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 4";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
@@ -140,7 +132,7 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['bitpandadown'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashedResult AND Exchange = 4";
+        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 4";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
@@ -154,7 +146,7 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['upbitup'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashedResult AND Exchange = 5";
+        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 5";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
@@ -168,7 +160,7 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['upbitdown'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashedResult AND Exchange = 5";
+        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 5";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
@@ -182,7 +174,7 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['indodaxup'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashedResult AND Exchange = 6";
+        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 6";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
@@ -196,7 +188,7 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['indodaxdown'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashedResult AND Exchange = 6";
+        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 6";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
@@ -210,7 +202,7 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['kucoinup'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashedResult AND Exchange = 7";
+        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 7";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
@@ -224,7 +216,7 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['kucoindown'])) {
-        $sql = "SELECT * FROM votes WHERE IP = $userIPHashedResult AND Exchange = 7";
+        $sql = "SELECT * FROM votes WHERE IP = $userIPHashed AND Exchange = 7";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
