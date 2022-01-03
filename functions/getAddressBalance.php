@@ -1,5 +1,7 @@
 <?php
     $path = "../iota.php/autoload.php";
-    $path2 = "../test.php"; 
-    require_once($path2);
+    require_once($path);
+    $client = new IOTA\Client\SingleNodeClient();
+
+    echo $client->info();
 ?>
