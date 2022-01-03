@@ -20,7 +20,7 @@
     require_once('config.php');
 
     // Implement functions
-    require_once("functions/getAddressBalance.php");
+    require("functions/getAddressBalance.php");
 
     $voteMessage = "";
 
