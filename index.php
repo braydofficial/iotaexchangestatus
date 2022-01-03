@@ -33,7 +33,7 @@
         die("Connection to database failed.");
     }
 
-    $resultIP = $conn->prepare($sql);
+    $resultIP = $conn->prepare($SQLHashResult);
     $resultIP->execute();
 
     $query = $resultIP->fetch();
