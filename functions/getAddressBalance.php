@@ -10,7 +10,14 @@
         $address = $string;
         $ret = $client->address($address);
         $ret = json_decode($ret, true);
-        $iota = $ret['balance'] / 1000000;
-        echo $iota;
+        $iota = $ret['balance'];
+        
+        // Check which type it is
+        if($iota >= 0 && <= 999) {
+            echo "$iota IOTA";
+        } elseif($iota >= 1000 && <= 999999) {
+            $miota = $iota / 1000000;
+            echo "$miota MIOTA";
+        }
     }
 ?>
