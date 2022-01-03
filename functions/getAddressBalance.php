@@ -5,4 +5,5 @@
     $client = new IOTA\Client\SingleNodeClient();
 
     echo $client->info();
+    echo "Test";
 ?>
