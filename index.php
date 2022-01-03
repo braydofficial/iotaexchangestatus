@@ -23,7 +23,7 @@
 
     $userIP = $_SERVER['REMOTE_ADDR'];
     $userIPHashed = password_hash($userIP, PASSWORD_DEFAULT);
-    $userIPHashedResult = password_verify($userIP, $userIPHashed);
+    $SQLHashResult = "SELECT * FROM votes;"
 
     // create connection
     $conn = mysqli_connect($host, $username, $password, $database);
@@ -32,6 +32,13 @@
     if($conn->connect_error) {
         die("Connection to database failed.");
     }
+
+    $resultIP = $conn->prepare($sql);
+    $resultIP->execute();
+
+    $query = $resultIP->fetch();
+
+    $userIPHashedResult = password_verify($userIP, $query['IP']);
 
     // Check POST methods to track votes
     if(isset($_POST['binancedown'])) {
