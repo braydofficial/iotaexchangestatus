@@ -310,7 +310,7 @@
     </head>
     <body>
         <div class="header">
-            <h1>IOTA Exchange Status</h1>
+            <h1><a href="https://iotaexchangestatus.canreal.net">IOTA Exchange Status</a></h1>
             <p>This simple website tracks if exhanges allow withdrawals of IOTA based on user votes. - Most exchanges don't allow me to check if withdrawals are enabled via their API, so this is the only solution I figured out.</p>
             <p>
                 <?php echo "The current server time is " . date("h:i:sa") ."<br>Votes will always be reset at 12am server time!"; ?>
