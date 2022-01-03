@@ -17,6 +17,9 @@
 
     // !-- MySQL Database table needs to be cleared every 24 hours trough a cron job or similar --!
 
+    ini_set('display_errors', 1);
+    error_reporting(~0);
+
     require_once('config.php');
 
     // Implement functions
