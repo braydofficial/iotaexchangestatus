@@ -8,6 +8,8 @@
 
         $client = new SingleNodeClient('mainnet');
         $address = $string;
-        echo $ret = $client->address($address);
+        $ret = $client->address($address);
+        $ret = json_decode($ret, true);
+        echo $ret['balance'];
     }
 ?>
