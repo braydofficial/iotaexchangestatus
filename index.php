@@ -1,9 +1,5 @@
 <?php
-    $host = "localhost";
-    $database = "db";
-    $username = "user";
-    $password = "pass";
-
+    
     // Exchanges in DB:
     // Binance.COM  1
     // Binance.US   8
@@ -20,10 +16,10 @@
 
     // !-- MySQL Database table needs to be cleared every 24 hours trough a cron job or similar --!
 
+    require_once('config.php');
     $voteMessage = "";
 
     $userIP = $_SERVER['REMOTE_ADDR'];
-    $IPSalt = "SALT"; // Change to set custom salt to protect IP addresses in case of database breach
     $IPConcat = "$userIP$IPSalt";
     $userIPHashed = hash("sha256", $IPConcat);
 
