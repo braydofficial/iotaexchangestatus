@@ -10,6 +10,7 @@
         $address = $string;
         $ret = $client->address($address);
         $ret = json_decode($ret, true);
-        echo $ret['balance'];
+        $iota = $ret['balance'] / 1000000;
+        echo $iota;
     }
 ?>
