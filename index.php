@@ -5,7 +5,8 @@
     $password = "pass";
 
     // Exchanges in DB:
-    // Binance      1
+    // Binance.COM  1
+    // Binance.US   8
     // Bitfinex     2
     // Bitvavo      3
     // bitpanda     4
@@ -42,7 +43,7 @@
         if($count == 0) {
             $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '1', '0')";
             if($conn->query($sql) === TRUE) {
-                $voteMessage = "You voted for Binance withdrawals being suspended!";
+                $voteMessage = "You voted for Binance COM withdrawals being suspended!";
             } else {
                 $voteMessage = "There was an issue with the database.";
             }
@@ -56,7 +57,7 @@
         if($count == 0) {
             $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '1', '1')";
             if($conn->query($sql) === TRUE) {
-                $voteMessage = "You voted for Binance withdrawals being possible!";
+                $voteMessage = "You voted for Binance withdrawals COM being possible!";
             } else {
                 $voteMessage = "There was an issue with the database.";
             }
@@ -231,6 +232,34 @@
         } else {
             $voteMessage = "You already voted in the last 24 hours!";
         }
+    } elseif(isset($_POST['binanceusup'])) {
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 8";
+        $result = mysqli_query($conn, $sql);
+        $count = mysqli_num_rows($result);
+        if($count == 0) {
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '8', '1')";
+            if($conn->query($sql) === TRUE) {
+                $voteMessage = "You voted for Binance US withdrawals being possible!";
+            } else {
+                $voteMessage = "There was an issue with the database.";
+            }
+        } else {
+            $voteMessage = "You already voted in the last 24 hours!";
+        }
+    } elseif(isset($_POST['binanceusdown'])) {
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 8";
+        $result = mysqli_query($conn, $sql);
+        $count = mysqli_num_rows($result);
+        if($count == 0) {
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '8', '0')";
+            if($conn->query($sql) === TRUE) {
+                $voteMessage = "You voted for Binance US withdrawals being suspended!";
+            } else {
+                $voteMessage = "There was an issue with the database.";
+            }
+        } else {
+            $voteMessage = "You already voted in the last 24 hours!";
+        }
     }
 
     function get_percentage($total, $number) {
@@ -264,12 +293,8 @@
 
         </div>
             <div class=content>
-            <section id="binance">
-                <h2><a href="https://www.binance.com">Binance</a></h2>
-                <form method="post">
-                    <input type="submit" name="binanceup" value="Withdrawal possible" style="background-color: #52B788">
-                    <input type="submit" name="binancedown" value="Withdrawal suspended" style="background-color: #E63946">
-                </form>
+            <section id="binance-com">
+                <h2><a href="https://www.binance.com">Binance.com</a></h2>
                 <p>
                     <?php 
                         $sql = "SELECT * FROM votes WHERE Exchange = 1 AND Status = 0";
@@ -293,14 +318,47 @@
                         }
                     ?>
                 </p>
+                <p>Have you withdrawn recently? If so, please vote:</p>
+                <form method="post">
+                    <input type="submit" name="binanceup" value="Withdrawal possible" style="background-color: #52B788">
+                    <input type="submit" name="binancedown" value="Withdrawal suspended" style="background-color: #E63946">
+                </form>
+            </section>
+
+            <section id="binance-us">
+                <h2><a href="https://www.binance.us">Binance.us</a></h2>
+                <p>
+                    <?php 
+                        $sql = "SELECT * FROM votes WHERE Exchange = 8 AND Status = 0";
+                        $result = mysqli_query($conn, $sql);
+                        $downCount = mysqli_num_rows($result);
+                        echo $downCount;
+                    ?> votes for suspended withdrawals in the last 24 hours.<br>
+                    <?php
+                        $sql = "SELECT * FROM votes WHERE Exchange = 8 AND Status = 1";
+                        $result = mysqli_query($conn, $sql);
+                        $upCount = mysqli_num_rows($result);
+                        echo $upCount;
+                    ?> votes for possible withdrawals in the last 24 hours.<br>
+                    <?php
+                    // Check how many percent of users voted for suspended withdrawals
+                        $total = $downCount + $upCount;
+                        $percentage = get_percentage($total, $downCount);
+                        echo "<br>Therefore, $percentage% voted for suspended withdrawals in the last 24 hours.<br>";
+                        if($percentage >= 20) {
+                            echo '<br><span style="color: #FFBF00; font-weight:500;">It is likely that withdrawals are suspended at the moment, because more than 20% voted for suspended withdrawals!</span>';
+                        }
+                    ?>
+                </p>
+                <p>Have you withdrawn recently? If so, please vote:</p>
+                <form method="post">
+                    <input type="submit" name="binanceusup" value="Withdrawal possible" style="background-color: #52B788">
+                    <input type="submit" name="binanceusdown" value="Withdrawal suspended" style="background-color: #E63946">
+                </form>
             </section>
             
             <section id="bitfinex">
                 <h2><a href="https://www.bitfinex.com/">Bitfinex</a></h2>
-                <form method="post">
-                    <input type="submit" name="bitfinexup" value="Withdrawal possible" style="background-color: #52B788">
-                    <input type="submit" name="bitfinexdown" value="Withdrawal suspended" style="background-color: #E63946">
-                </form>
                 <p>
                     <?php 
                         $sql = "SELECT * FROM votes WHERE Exchange = 2 AND Status = 0";
@@ -324,14 +382,15 @@
                         }
                     ?>
                 </p>
+                <p>Have you withdrawn recently? If so, please vote:</p>
+                <form method="post">
+                    <input type="submit" name="bitfinexup" value="Withdrawal possible" style="background-color: #52B788">
+                    <input type="submit" name="bitfinexdown" value="Withdrawal suspended" style="background-color: #E63946">
+                </form>
             </section>
 
             <section id="bitvavo">
                 <h2><a href="https://bitvavo.com">Bitvavo</a></h2>
-                <form method="post">
-                    <input type="submit" name="bitvavoup" value="Withdrawal possible" style="background-color: #52B788">
-                    <input type="submit" name="bitvavodown" value="Withdrawal suspended" style="background-color: #E63946">
-                </form>
                 <p>
                     <?php 
                         $sql = "SELECT * FROM votes WHERE Exchange = 3 AND Status = 0";
@@ -355,14 +414,15 @@
                         }
                     ?>
                 </p>
+                <p>Have you withdrawn recently? If so, please vote:</p>
+                <form method="post">
+                    <input type="submit" name="bitvavoup" value="Withdrawal possible" style="background-color: #52B788">
+                    <input type="submit" name="bitvavodown" value="Withdrawal suspended" style="background-color: #E63946">
+                </form>
             </section>
 
             <section id="bitpanda">
                 <h2><a href="https://www.bitpanda.com">bitpanda</a></h2>
-                <form method="post">
-                    <input type="submit" name="bitpandaup" value="Withdrawal possible" style="background-color: #52B788">
-                    <input type="submit" name="bitpandadown" value="Withdrawal suspended" style="background-color: #E63946">
-                </form>
                 <p>
                     <?php 
                         $sql = "SELECT * FROM votes WHERE Exchange = 4 AND Status = 0";
@@ -386,14 +446,15 @@
                         }
                     ?>
                 </p>
+                <p>Have you withdrawn recently? If so, please vote:</p>
+                <form method="post">
+                    <input type="submit" name="bitpandaup" value="Withdrawal possible" style="background-color: #52B788">
+                    <input type="submit" name="bitpandadown" value="Withdrawal suspended" style="background-color: #E63946">
+                </form>
             </section>
 
             <section id="upbit">
                 <h2><a href="https://upbit.com">Upbit</a></h2>
-                <form method="post">
-                    <input type="submit" name="upbitup" value="Withdrawal possible" style="background-color: #52B788">
-                    <input type="submit" name="upbitdown" value="Withdrawal suspended" style="background-color: #E63946">
-                </form>
                 <p>
                     <?php 
                         $sql = "SELECT * FROM votes WHERE Exchange = 5 AND Status = 0";
@@ -417,14 +478,15 @@
                         }
                     ?>
                 </p>
+                <p>Have you withdrawn recently? If so, please vote:</p>
+                <form method="post">
+                    <input type="submit" name="upbitup" value="Withdrawal possible" style="background-color: #52B788">
+                    <input type="submit" name="upbitdown" value="Withdrawal suspended" style="background-color: #E63946">
+                </form>
             </section>
 
             <section id="indodax">
                 <h2><a href="https://indodax.com/">Indodax</a></h2>
-                <form method="post">
-                    <input type="submit" name="indodaxup" value="Withdrawal possible" style="background-color: #52B788">
-                    <input type="submit" name="indodaxdown" value="Withdrawal suspended" style="background-color: #E63946">
-                </form>
                 <p>
                     <?php 
                         $sql = "SELECT * FROM votes WHERE Exchange = 6 AND Status = 0";
@@ -448,14 +510,15 @@
                         }
                     ?>
                 </p>
+                <p>Have you withdrawn recently? If so, please vote:</p>
+                <form method="post">
+                    <input type="submit" name="indodaxup" value="Withdrawal possible" style="background-color: #52B788">
+                    <input type="submit" name="indodaxdown" value="Withdrawal suspended" style="background-color: #E63946">
+                </form>
             </section>
 
             <section id="kucoin">
                 <h2><a href="https://www.kucoin.com/">KuCoin</a></h2>
-                <form method="post">
-                    <input type="submit" name="kucoinup" value="Withdrawal possible" style="background-color: #52B788">
-                    <input type="submit" name="kucoindown" value="Withdrawal suspended" style="background-color: #E63946">
-                </form>
                 <p>
                     <?php 
                         $sql = "SELECT * FROM votes WHERE Exchange = 7 AND Status = 0";
@@ -479,6 +542,11 @@
                         }
                     ?>
                 </p>
+                <p>Have you withdrawn recently? If so, please vote:</p>
+                <form method="post">
+                    <input type="submit" name="kucoinup" value="Withdrawal possible" style="background-color: #52B788">
+                    <input type="submit" name="kucoindown" value="Withdrawal suspended" style="background-color: #E63946">
+                </form>
             </section>
         </div>
         <div class="footer">
