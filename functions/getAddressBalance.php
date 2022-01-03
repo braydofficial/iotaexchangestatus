@@ -1,5 +1,5 @@
 <?php
-    $test = _DIR_;
+    $test = dirname(__FILE__);
     echo $test;
     $path = $_SERVER['DOCUMENT_ROOT'];
     $path .= "/iota.php/autoload.php";
