@@ -5,5 +5,5 @@
     $database = "db";
     $username = "user";
     $password = "pass";
-    $IPSalt = "SALT"; // Change to set custom salt to protect IP addresses in case of database breach
+    $IPSalt = "SALT"; // Change to set custom salt 🧂 to protect IP addresses in case of database breach
 ?>

@@ -1,0 +1,3 @@
+[submodule "iota.php"]
+	path = iota.php
+	url = https://github.com/iota-community/iota.php.git
