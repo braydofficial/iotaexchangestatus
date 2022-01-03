@@ -567,8 +567,8 @@
     <script type="text/javascript">
 
         (function() {
-            var start = new Date;
-            start.setHours(0, 0, 0); // 11pm
+            var start = new Date.toLocaleString("en-US", {timeZone: "Europe/Berlin"});
+            start.setHours(0, 0, 0); // 12am
 
             function pad(num) {
                 return ("0" + parseInt(num)).substr(-2);
