@@ -44,7 +44,7 @@
         if($count == 0) {
             $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '1', '0')";
             if($conn->query($sql) === TRUE) {
-                $voteMessage = "You voted for Binance COM withdrawals being suspended!";
+                $voteMessage = "You voted for Binance.COM withdrawals being suspended!";
             } else {
                 $voteMessage = "There was an issue with the database.";
             }
@@ -58,7 +58,7 @@
         if($count == 0) {
             $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '1', '1')";
             if($conn->query($sql) === TRUE) {
-                $voteMessage = "You voted for Binance withdrawals COM being possible!";
+                $voteMessage = "You voted for Binance withdrawals.COM being possible!";
             } else {
                 $voteMessage = "There was an issue with the database.";
             }
@@ -240,7 +240,7 @@
         if($count == 0) {
             $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '8', '1')";
             if($conn->query($sql) === TRUE) {
-                $voteMessage = "You voted for Binance US withdrawals being possible!";
+                $voteMessage = "You voted for Binance.US withdrawals being possible!";
             } else {
                 $voteMessage = "There was an issue with the database.";
             }
@@ -254,7 +254,7 @@
         if($count == 0) {
             $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '8', '0')";
             if($conn->query($sql) === TRUE) {
-                $voteMessage = "You voted for Binance US withdrawals being suspended!";
+                $voteMessage = "You voted for Binance.US withdrawals being suspended!";
             } else {
                 $voteMessage = "There was an issue with the database.";
             }
@@ -283,6 +283,34 @@
             $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '9', '0')";
             if($conn->query($sql) === TRUE) {
                 $voteMessage = "You voted for Bitrue withdrawals being suspended!";
+            } else {
+                $voteMessage = "There was an issue with the database.";
+            }
+        } else {
+            $voteMessage = "You already voted in the last 24 hours!";
+        }
+    } elseif(isset($_POST['coinmerceup'])) {
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 10";
+        $result = mysqli_query($conn, $sql);
+        $count = mysqli_num_rows($result);
+        if($count == 0) {
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '10', '1')";
+            if($conn->query($sql) === TRUE) {
+                $voteMessage = "You voted for Coinmerce.io withdrawals being possible!";
+            } else {
+                $voteMessage = "There was an issue with the database.";
+            }
+        } else {
+            $voteMessage = "You already voted in the last 24 hours!";
+        }
+    } elseif(isset($_POST['coinmercedown'])) {
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 10";
+        $result = mysqli_query($conn, $sql);
+        $count = mysqli_num_rows($result);
+        if($count == 0) {
+            $sql = "INSERT INTO `votes` (`ID`, `IP`, `Exchange`, `Status`) VALUES (NULL, '$userIPHashed', '10', '0')";
+            if($conn->query($sql) === TRUE) {
+                $voteMessage = "You voted for Coinmerce.io withdrawals being suspended!";
             } else {
                 $voteMessage = "There was an issue with the database.";
             }
@@ -616,6 +644,38 @@
                 <form method="post">
                     <input type="submit" name="bitrueup" value="Withdrawal possible" style="background-color: #52B788">
                     <input type="submit" name="bitruedown" value="Withdrawal suspended" style="background-color: #E63946">
+                </form>
+            </section>
+
+            <section id="coinmerceio">
+                <h2><a href="https://coinmerce.io/">Coinmerce.io</a></h2>
+                <p>
+                    <?php 
+                        $sql = "SELECT * FROM votes WHERE Exchange = 10 AND Status = 0";
+                        $result = mysqli_query($conn, $sql);
+                        $downCount = mysqli_num_rows($result);
+                        echo $downCount;
+                    ?> votes for suspended withdrawals in the last 24 hours.<br>
+                    <?php
+                        $sql = "SELECT * FROM votes WHERE Exchange = 10 AND Status = 1";
+                        $result = mysqli_query($conn, $sql);
+                        $upCount = mysqli_num_rows($result);
+                        echo $upCount;
+                    ?> votes for possible withdrawals in the last 24 hours.<br>
+                    <?php
+                    // Check how many percent of users voted for suspended withdrawals
+                        $total = $downCount + $upCount;
+                        $percentage = get_percentage($total, $downCount);
+                        echo "<br>Therefore, $percentage% voted for suspended withdrawals in the last 24 hours.<br>";
+                        if($percentage >= 20) {
+                            echo '<br><span style="color: #FFBF00; font-weight:500;">It is likely that withdrawals are suspended at the moment, because more than 20% voted for suspended withdrawals!</span>';
+                        }
+                    ?>
+                </p>
+                <p>Have you withdrawn recently? If so, please vote:</p>
+                <form method="post">
+                    <input type="submit" name="coinmerceup" value="Withdrawal possible" style="background-color: #52B788">
+                    <input type="submit" name="coinmercedown" value="Withdrawal suspended" style="background-color: #E63946">
                 </form>
             </section>
 
