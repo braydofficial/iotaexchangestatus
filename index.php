@@ -290,7 +290,7 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['coinmerceup'])) {
-        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 9";
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 10";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
@@ -304,7 +304,7 @@
             $voteMessage = "You already voted in the last 24 hours!";
         }
     } elseif(isset($_POST['coinmercedown'])) {
-        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 9";
+        $sql = "SELECT * FROM votes WHERE IP = '$userIPHashed' AND Exchange = 10";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
         if($count == 0) {
