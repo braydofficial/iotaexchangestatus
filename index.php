@@ -674,8 +674,8 @@
                 </p>
                 <p>Have you withdrawn recently? If so, please vote:</p>
                 <form method="post">
-                    <input type="submit" name="bitrueup" value="Withdrawal possible" style="background-color: #52B788">
-                    <input type="submit" name="bitruedown" value="Withdrawal suspended" style="background-color: #E63946">
+                    <input type="submit" name="coinmerceup" value="Withdrawal possible" style="background-color: #52B788">
+                    <input type="submit" name="coinmercedown" value="Withdrawal suspended" style="background-color: #E63946">
                 </form>
             </section>
 
