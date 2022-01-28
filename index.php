@@ -11,6 +11,8 @@
     // KuCoin       7
     // Bitrue       9
 
+    // PAY ATTENTION ON THE ORDER ABOVE!!!
+
     // Status in DB:
     // 0            down
     // 1            up
