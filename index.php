@@ -685,8 +685,8 @@
             <p>
                 <span style="color: #FFBF00; font-weight: 500;">IOTA Donation address:</span><br>
                 iota1qqm9k3003sszpq4d5n0yc89pk6dvpm3wvc7lexlzr2nwwrpaxaxdg7f85k6<br><br>
-                Developed with ❤️ by <a href="https://github.com/braydofficial">thisdudeisvegan</a><br>
-                Source on <a href="https://github.com/braydofficial/iotaexchangestatus">GitHub</a><br>
+                Developed with ❤️ by <a href="https://github.com/braydofficial">braydofficial / thisdudeisvegan</a><br>
+                Open Source and on <a href="https://github.com/braydofficial/iotaexchangestatus">GitHub</a><br>
             </p>
         </div>
     </body>
